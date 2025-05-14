@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import '../widget/newcustom_scaffold.dart';
 import 'qr_scanner_screen.dart';
 import 'package:flutter/gestures.dart';
+import 'package:openday/screens/contact_screen.dart';
+import 'package:openday/screens/tour_screen.dart';
+
 
 /// HomeScreen widget displaying the main dashboard with a grid of features.
 class HomeScreen extends StatelessWidget {
@@ -314,16 +317,4 @@ class QRScreen extends StatelessWidget {
 class OffersScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(appBar: AppBar(title: const Text("Offers Screen")));
-}
-
-/// Placeholder screen for Contact Us
-class ContactScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) => Scaffold(appBar: AppBar(title: const Text("Contact Us")));
-}
-
-/// Placeholder screen for Virtual Tour
-class TourScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) => Scaffold(appBar: AppBar(title: const Text("Virtual Tour")));
 }

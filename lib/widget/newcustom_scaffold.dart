@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../screens/home_screen.dart';
+import '../screens/contact_screen.dart';
+import 'package:openday/screens/tour_screen.dart';
 
 // A reusable scaffold widget with a custom AppBar and a bottom menu
 class NewCustomScaffold extends StatelessWidget {
