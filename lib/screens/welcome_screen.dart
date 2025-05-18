@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'signin_screen.dart'; // Importing the screen to navigate to after the welcome screen
+import 'signin_screen.dart';
 
-// WelcomeScreen is a StatefulWidget because it involves a timed navigation
+// Welcome screen that shows a splash screen before redirecting to SigninScreen
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
 
@@ -14,12 +14,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   void initState() {
     super.initState();
 
-    // Automatically navigate to SigninScreen after 3 seconds
+    // After a 3-second delay, navigate to the SigninScreen
     Future.delayed(const Duration(seconds: 3), () {
       Navigator.pushReplacement(
+        // Replace current screen to prevent going back
         context,
         MaterialPageRoute(
-          builder: (context) => const SigninScreen(), // Go to SigninScreen
+          builder: (context) => const SigninScreen(),
         ),
       );
     });
@@ -28,41 +29,43 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // Transparent AppBar to allow top image to be visible behind it
+      // Transparent app bar with no elevation (shadow)
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        elevation: 0, // No shadow
+        elevation: 0,
       ),
-      extendBodyBehindAppBar: true, // Allow body content behind the app bar
+      // Extend body behind the app bar
+      extendBodyBehindAppBar: true,
 
+      // Stack allows layering of multiple widgets
       body: Stack(
         children: [
-          // Bottom image aligned to bottom of screen
+          // Bottom decorative image
           Align(
             alignment: Alignment.bottomCenter,
             child: Image.asset(
               'assets/images/bottom.png',
               width: double.infinity,
-              fit: BoxFit.cover, // Cover full width
+              fit: BoxFit.cover,
             ),
           ),
 
-          // Center image, usually logo or app icon
+          // Center logo/image
           Align(
             alignment: Alignment.center,
             child: Image.asset(
-              'assets/images/cinec.png', // App logo/image in the center
+              'assets/images/cinec.png',
               width: 200,
               height: 200,
               fit: BoxFit.cover,
             ),
           ),
 
-          // Top image aligned to top of the screen
+          // Top decorative image
           Align(
             alignment: Alignment.topCenter,
             child: Image.asset(
-              'assets/images/top1.png', // Decorative top image
+              'assets/images/top1.png',
               width: double.infinity,
               fit: BoxFit.cover,
             ),

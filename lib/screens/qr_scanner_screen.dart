@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
+// Screen for scanning QR codes using device camera
 class QRScannerScreen extends StatefulWidget {
   const QRScannerScreen({super.key});
 
@@ -9,15 +10,15 @@ class QRScannerScreen extends StatefulWidget {
 }
 
 class _QRScannerScreenState extends State<QRScannerScreen> {
-  // Controller to manage the mobile scanner (camera)
+  // Controller for managing the mobile scanner
   MobileScannerController cameraController = MobileScannerController();
 
-  // Variable to store scanned QR code result
+  // Variable to store the scanned QR code data
   String scannedData = "Scan a QR Code";
 
-  // Dispose the camera controller when the screen is removed from memory
   @override
   void dispose() {
+    // Clean up the controller when widget is disposed
     cameraController.dispose();
     super.dispose();
   }
@@ -28,25 +29,26 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
       appBar: AppBar(title: const Text("QR Code Scanner")),
       body: Stack(
         children: [
-          // Scanner camera view using MobileScanner
+          // MobileScanner widget that handles camera and QR detection
           MobileScanner(
-            controller: cameraController,
+            controller: cameraController, // Pass the controller
+            // Callback when QR code is detected
             onDetect: (capture) {
               final List<Barcode> barcodes = capture.barcodes;
 
-              // If any barcode is detected, update UI and return the result
               if (barcodes.isNotEmpty) {
                 setState(() {
+                  // Update scanned data with first detected barcode
                   scannedData = barcodes.first.rawValue ?? "No data";
                 });
 
-                // Close the scanner screen and send back scanned result
+                // Return scanned data to previous screen and close scanner
                 Navigator.pop(context, scannedData);
               }
             },
           ),
 
-          // Overlay widget to display the scanned result at the bottom
+          // Overlay to display scanned data at bottom of screen
           Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
@@ -54,7 +56,7 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
               child: Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(0.6),
+                  color: Colors.black.withOpacity(0.6), // Semi-transparent black
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Text(

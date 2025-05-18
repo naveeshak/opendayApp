@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../widget/newcustom_scaffold.dart';
 
+// This widget represents the Virtual Campus Tour screen
 class TourScreen extends StatelessWidget {
   const TourScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return NewCustomScaffold(
+      // Using a Stack to layer background images and content
       body: Stack(
         children: [
-          // Decorative top and bottom wave images (same as other screens)
+          // Top decorative image
           Align(
             alignment: Alignment.topCenter,
             child: Image.asset(
@@ -19,6 +21,7 @@ class TourScreen extends StatelessWidget {
               fit: BoxFit.cover,
             ),
           ),
+          // Bottom decorative image
           Align(
             alignment: Alignment.bottomCenter,
             child: Image.asset(
@@ -28,14 +31,14 @@ class TourScreen extends StatelessWidget {
             ),
           ),
 
-          // Main content
+          // Main content centered on screen
           Center(
             child: Padding(
               padding: const EdgeInsets.all(20.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // Title
+                  // Title text
                   const Text(
                     "Virtual Campus Tour",
                     style: TextStyle(
@@ -46,7 +49,7 @@ class TourScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
 
-                  // Description
+                  // Description text
                   const Text(
                     "Explore our campus from anywhere in the world with our interactive 360° virtual tour.",
                     textAlign: TextAlign.center,
@@ -57,7 +60,7 @@ class TourScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 30),
 
-                  // Tour image
+                  // Virtual tour preview image with shadow and rounded corners
                   Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
@@ -81,14 +84,16 @@ class TourScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 30),
 
-                  // Start Tour button
+                  // Button to launch the virtual tour
                   ElevatedButton(
                     onPressed: () async {
                       const virtualTourUrl = 'http://cinec360.cinecict.net/';
                       final uri = Uri.parse(virtualTourUrl);
+                      // Check if URL can be launched
                       if (await canLaunchUrl(uri)) {
                         await launchUrl(uri);
                       } else {
+                        // Show error message if URL can't be launched
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text("Could not launch the virtual tour"),

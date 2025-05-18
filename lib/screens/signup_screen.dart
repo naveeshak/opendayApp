@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:openday/widget/custom_scaffold.dart'; // Custom scaffold layout for consistent UI
-import 'home_screen.dart'; // Navigate here after successful signup
+import 'home_screen.dart';
 
+// SignupScreen is a stateful widget for user registration
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
 
@@ -10,17 +11,18 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
-  final _formKey = GlobalKey<FormState>(); // Key to manage form state
+  // Key for the form to validate input fields
+  final _formKey = GlobalKey<FormState>();
 
-  // Controllers to capture user input
+  // Controllers to retrieve user input from text fields
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController = TextEditingController();
 
-  // Dispose controllers to free up resources when screen is removed
   @override
   void dispose() {
+    // Dispose controllers to free up resources when the widget is removed
     _usernameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
@@ -28,17 +30,16 @@ class _SignupScreenState extends State<SignupScreen> {
     super.dispose();
   }
 
-  // Function to handle the signup logic
+  // Function to handle signup logic
   void _signup() {
     if (_formKey.currentState!.validate()) {
-      // All form validations passed
 
-      // Show a success message (optional)
+      // Show success message
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Signup successful!')),
       );
 
-      // Navigate to the home screen
+      // Navigate to HomeScreen and remove the signup screen from the stack
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const HomeScreen()),
@@ -56,15 +57,15 @@ class _SignupScreenState extends State<SignupScreen> {
             right: 20,
             bottom: MediaQuery.of(context).viewInsets.bottom, // Adjust for keyboard
           ),
-          child: SingleChildScrollView( // Allows scrolling when keyboard appears
+          child: SingleChildScrollView(
             child: Form(
-              key: _formKey,
+              key: _formKey, // Assign form key for validation
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 40),
 
-                  // Screen title
+                  // Title
                   const Text(
                     "Create Account",
                     style: TextStyle(
@@ -81,7 +82,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                   const SizedBox(height: 30),
 
-                  // Username Field
+                  // Username field
                   TextFormField(
                     controller: _usernameController,
                     decoration: InputDecoration(
@@ -103,7 +104,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                   const SizedBox(height: 20),
 
-                  // Email Field
+                  // Email field
                   TextFormField(
                     controller: _emailController,
                     decoration: InputDecoration(
@@ -120,7 +121,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       if (value == null || value.isEmpty) {
                         return 'Please enter email';
                       }
-                      // Basic email format validation
+                      // Simple email format validation
                       if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
                         return 'Please enter a valid email';
                       }
@@ -129,10 +130,10 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                   const SizedBox(height: 20),
 
-                  // Password Field
+                  // Password field
                   TextFormField(
                     controller: _passwordController,
-                    obscureText: true, // Hide input for security
+                    obscureText: true, // Hide input
                     decoration: InputDecoration(
                       prefixIcon: const Icon(Icons.lock),
                       hintText: "Password",
@@ -155,10 +156,10 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                   const SizedBox(height: 20),
 
-                  // Confirm Password Field
+                  // Confirm Password field
                   TextFormField(
                     controller: _confirmPasswordController,
-                    obscureText: true,
+                    obscureText: true, // Hide input
                     decoration: InputDecoration(
                       prefixIcon: const Icon(Icons.lock_outline),
                       hintText: "Confirm Password",
@@ -181,12 +182,12 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                   const SizedBox(height: 20),
 
-                  // Signup Button
+                  // Signup button
                   SizedBox(
                     width: double.infinity,
                     height: 50,
                     child: ElevatedButton(
-                      onPressed: _signup,
+                      onPressed: _signup, // Call signup function
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.blue,
                         shape: RoundedRectangleBorder(
@@ -201,14 +202,14 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                   const SizedBox(height: 20),
 
-                  // Link to Sign-in screen
+                  // Link to sign in screen for existing users
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Text("Already have an account?"),
                       TextButton(
                         onPressed: () {
-                          Navigator.pop(context); // Return to sign-in screen
+                          Navigator.pop(context); // Go back to previous screen
                         },
                         child: const Text(
                           "Sign in",

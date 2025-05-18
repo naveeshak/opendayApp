@@ -1,7 +1,7 @@
 import 'package:openday/widget/custom_scaffold.dart';
 import 'package:flutter/material.dart';
 
-// Stateful widget for the Forgot Password screen
+// Screen for handling password reset requests
 class forgotPasswordScreen extends StatefulWidget {
   const forgotPasswordScreen({super.key});
 
@@ -10,23 +10,24 @@ class forgotPasswordScreen extends StatefulWidget {
 }
 
 class _ForgotPasswordScreenState extends State<forgotPasswordScreen> {
-  // Key to manage form validation
+  // Form key for validation
   final _formKey = GlobalKey<FormState>();
 
-  // Controller to manage the input from the email text field
+  // Controller for email input field
   final TextEditingController _emailController = TextEditingController();
 
   @override
   void dispose() {
-    // Dispose the controller when the widget is removed from the widget tree
+    // Clean up the controller when the widget is disposed
     _emailController.dispose();
     super.dispose();
   }
 
-  // Function to validate the form and display a snackbar message
+  // Function to handle password reset link sending
   void _sendResetLink() {
+    // Validate the form before proceeding
     if (_formKey.currentState!.validate()) {
-      // If email is valid, show a success message (you can add actual email logic here)
+      // Show confirmation message
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Reset link sent to email.')),
       );
@@ -37,14 +38,14 @@ class _ForgotPasswordScreenState extends State<forgotPasswordScreen> {
   Widget build(BuildContext context) {
     return CustomScaffold(
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20), // Add horizontal padding
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Form(
-          key: _formKey, // Assign the form key to validate inputs
+          key: _formKey, // Associate the form key with this Form widget
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center, // Center vertically
-            crossAxisAlignment: CrossAxisAlignment.start, // Align content to start
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Title text
+              // Screen title
               const Text(
                 "Forgot Password",
                 style: TextStyle(
@@ -54,33 +55,33 @@ class _ForgotPasswordScreenState extends State<forgotPasswordScreen> {
               ),
               const SizedBox(height: 10),
 
-              // Subtitle / description text
+              // Instructions text
               const Text(
                 "Enter your email address below to receive a password reset link.",
                 style: TextStyle(color: Colors.grey),
               ),
               const SizedBox(height: 30),
 
-              // Email input field with validation
+              // Email input field
               TextFormField(
-                controller: _emailController, // Link the controller
-                keyboardType: TextInputType.emailAddress, // Show email keyboard
+                controller: _emailController, // Connect to controller
+                keyboardType: TextInputType.emailAddress, // Set keyboard type
                 decoration: InputDecoration(
                   prefixIcon: const Icon(Icons.email), // Email icon
                   hintText: "Email Address",
                   filled: true,
-                  fillColor: Colors.blue[100],
+                  fillColor: Colors.blue[100], // Light blue background
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide: BorderSide.none,
                   ),
                 ),
+                // Validation logic for email field
                 validator: (value) {
-                  // Check if email is empty
                   if (value == null || value.isEmpty) {
                     return 'Please enter your email';
                   }
-                  // Check if email is valid using regex
+                  // Regular expression for email validation
                   final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
                   if (!emailRegex.hasMatch(value)) {
                     return 'Enter a valid email address';
@@ -90,14 +91,14 @@ class _ForgotPasswordScreenState extends State<forgotPasswordScreen> {
               ),
               const SizedBox(height: 20),
 
-              // Button to send reset link
+              // Submit button
               SizedBox(
-                width: double.infinity, // Make button full-width
+                width: double.infinity, // Full width button
                 height: 50,
                 child: ElevatedButton(
-                  onPressed: _sendResetLink, // Call function to send reset
+                  onPressed: _sendResetLink, // Trigger reset function
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
+                    backgroundColor: Colors.blue, // Button color
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -110,7 +111,7 @@ class _ForgotPasswordScreenState extends State<forgotPasswordScreen> {
               ),
               const SizedBox(height: 20),
 
-              // Option to go back to Sign In screen
+              // Navigation back to sign in
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

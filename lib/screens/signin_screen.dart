@@ -4,6 +4,7 @@ import 'forget_password.dart';
 import 'signup_screen.dart';
 import 'home_screen.dart';
 
+// Sign-in screen for user authentication
 class SigninScreen extends StatefulWidget {
   const SigninScreen({super.key});
 
@@ -12,19 +13,24 @@ class SigninScreen extends StatefulWidget {
 }
 
 class _SigninScreenState extends State<SigninScreen> {
+  // Form key for validation
   final _formKey = GlobalKey<FormState>();
+  // Controllers for text fields
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   @override
   void dispose() {
+    // Clean up controllers when widget is disposed
     _usernameController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
 
+  // Handle sign-in process
   void _signin() {
     if (_formKey.currentState!.validate()) {
+      // Navigate to home screen if validation passes
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const HomeScreen()),
@@ -41,14 +47,14 @@ class _SigninScreenState extends State<SigninScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: ConstrainedBox(
               constraints: BoxConstraints(
-                minHeight: constraints.maxHeight,
+                minHeight: constraints.maxHeight, // Ensure minimum height
               ),
               child: IntrinsicHeight(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Header Section
+                    // Header section
                     const Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -68,20 +74,20 @@ class _SigninScreenState extends State<SigninScreen> {
                     ),
                     const SizedBox(height: 30),
 
-                    // Form Section
+                    // Form section
                     Form(
                       key: _formKey,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // Username Field
+                          // Username input field
                           TextFormField(
                             controller: _usernameController,
                             decoration: InputDecoration(
                               prefixIcon: const Icon(Icons.person),
                               hintText: "User Name",
                               filled: true,
-                              fillColor: Colors.blue[100],
+                              fillColor: Colors.blue[100], // Light blue background
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
                                 borderSide: BorderSide.none,
@@ -96,10 +102,10 @@ class _SigninScreenState extends State<SigninScreen> {
                           ),
                           const SizedBox(height: 20),
 
-                          // Password Field
+                          // Password input field
                           TextFormField(
                             controller: _passwordController,
-                            obscureText: true,
+                            obscureText: true, // Hide password text
                             decoration: InputDecoration(
                               prefixIcon: const Icon(Icons.lock),
                               hintText: "Password",
@@ -119,7 +125,7 @@ class _SigninScreenState extends State<SigninScreen> {
                           ),
                           const SizedBox(height: 10),
 
-                          // Forgot Password
+                          // Forgot password link
                           Align(
                             alignment: Alignment.centerRight,
                             child: TextButton(
@@ -139,9 +145,9 @@ class _SigninScreenState extends State<SigninScreen> {
                           ),
                           const SizedBox(height: 20),
 
-                          // Sign In Button
+                          // Sign-in button
                           SizedBox(
-                            width: double.infinity,
+                            width: double.infinity, // Full width button
                             height: 50,
                             child: ElevatedButton(
                               onPressed: _signin,
@@ -165,7 +171,7 @@ class _SigninScreenState extends State<SigninScreen> {
                     ),
                     const SizedBox(height: 20),
 
-                    // Sign Up Prompt
+                    // Sign-up prompt
                     Center(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,

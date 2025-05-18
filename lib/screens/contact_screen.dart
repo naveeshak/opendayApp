@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../widget/newcustom_scaffold.dart';
 
+// ContactScreen is a StatelessWidget that displays contact information and social media links
 class ContactScreen extends StatelessWidget {
   const ContactScreen({super.key});
 
-  // Open URLs in browser
+  // Function to launch a URL in an external application
   void _launchURL(String url) async {
     final uri = Uri.parse(url);
     if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
@@ -18,29 +19,32 @@ class ContactScreen extends StatelessWidget {
     return NewCustomScaffold(
       body: Stack(
         children: [
-          // Decorative background
+          // Background image at the top
           Align(
             alignment: Alignment.topCenter,
             child: Image.asset('assets/images/top1.png', width: double.infinity, fit: BoxFit.cover),
           ),
+          // Background image at the bottom
           Align(
             alignment: Alignment.bottomCenter,
             child: Image.asset('assets/images/bottom.png', width: double.infinity, fit: BoxFit.cover),
           ),
 
-          // Main content
+          // Main content centered on the screen
           Center(
             child: Padding(
               padding: const EdgeInsets.all(20),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  // Title text
                   const Text(
                     "Contact Us",
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.indigo),
                   ),
                   const SizedBox(height: 20),
 
+                  // Contact information card
                   Card(
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
                     elevation: 5,
@@ -61,23 +65,25 @@ class ContactScreen extends StatelessWidget {
 
                   const SizedBox(height: 30),
 
-                  // Social Media Icons
+                  // Social media icons row
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      // Facebook icon button
                       IconButton(
-                        iconSize: 50, // This sets the clickable area size
+                        iconSize: 50,
                         icon: Container(
-                          width: 50, // Slightly smaller than iconSize for padding
+                          width: 50,
                           height: 50,
                           child: Image.asset(
                             'assets/icons/facebook.png',
-                            fit: BoxFit.contain, // Ensures image fits properly
-                            errorBuilder: (context, error, stackTrace) => Icon(Icons.error), // Fallback widget
+                            fit: BoxFit.contain,
+                            errorBuilder: (context, error, stackTrace) => Icon(Icons.error),
                           ),
                         ),
                         onPressed: () => _launchURL('https://www.facebook.com/share/1C4TixWTEx/'),
                       ),
+                      // Instagram icon button
                       IconButton(
                         iconSize: 50,
                         icon: Container(
@@ -91,6 +97,7 @@ class ContactScreen extends StatelessWidget {
                         ),
                         onPressed: () => _launchURL('https://www.instagram.com/cinec_campus?igsh=dW04d2NhOWczMHY='),
                       ),
+                      // LinkedIn icon button
                       IconButton(
                         iconSize: 50,
                         icon: Container(
@@ -104,6 +111,7 @@ class ContactScreen extends StatelessWidget {
                         ),
                         onPressed: () => _launchURL('https://www.linkedin.com/school/cinec-campus/'),
                       ),
+                      // TikTok icon button
                       IconButton(
                         iconSize: 50,
                         icon: Container(
@@ -117,6 +125,7 @@ class ContactScreen extends StatelessWidget {
                         ),
                         onPressed: () => _launchURL('https://www.tiktok.com/@cineccampus?_t=ZS-8wJlMlAbGwj&_r=1'),
                       ),
+                      // YouTube icon button
                       IconButton(
                         iconSize: 50,
                         icon: Container(

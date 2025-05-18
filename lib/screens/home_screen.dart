@@ -1,149 +1,152 @@
 import 'package:flutter/material.dart';
 import '../widget/newcustom_scaffold.dart';
 import 'qr_scanner_screen.dart';
-import 'package:flutter/gestures.dart';
 import 'package:openday/screens/contact_screen.dart';
 import 'package:openday/screens/tour_screen.dart';
 
-
-/// HomeScreen widget displaying the main dashboard with a grid of features.
+// Main home screen that displays a banner and grid of options
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return NewCustomScaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(height: 20),
-
-            // Banner Image with rounded corners and shadow
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black,
-                    blurRadius: 10,
-                    spreadRadius: 2,
-                    offset: const Offset(0, 5),
-                  ),
-                ],
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: constraints.maxHeight, // Ensure minimum height fills screen
               ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Image.asset(
-                  'assets/images/banner.jpeg',
-                  width: 300,
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
+              child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                  const SizedBox(height: 20), // Top spacing
 
-            const SizedBox(height: 30),
+                    // Banner image with shadow effect
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.3),
+                              blurRadius: 10,
+                              spreadRadius: 2,
+                              offset: const Offset(0, 5),
+                            ),
+                          ],
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: Image.asset(
+                            'assets/images/banner.jpeg',
+                            width: double.infinity,
+                            height: 300,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                    ),
 
-            // Grid of navigable buttons
+            const SizedBox(height: 25), // Spacing between banner and grid
+
+                    // Grid of options (3 columns)
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.only(
+                left: 20,
+                right: 20,
+                bottom: 20,
+              ),
               child: GridView.count(
-                crossAxisCount: 3,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                crossAxisSpacing: 20,
-                mainAxisSpacing: 20,
+                crossAxisCount: 3, // 3 items per row
+                shrinkWrap: true, // Take only needed space
+                physics: const NeverScrollableScrollPhysics(), // Disable scrolling
+                crossAxisSpacing: 12, // Horizontal spacing between items
+                mainAxisSpacing: 12, // Vertical spacing between items
+                childAspectRatio: 0.85, // Width to height ratio
                 children: [
-                  _buildIconButton(context, 'assets/images/event.jpg', 'Event', EventScreen()),
-                  _buildIconButton(context, 'assets/images/map.jpg', 'Map', MapScreen()),
-                  _buildIconButton(context, 'assets/images/qr.jpg', 'QR', QRScreen()),
-                  _buildIconButton(context, 'assets/images/tour.jpg', 'Virtual Tour', TourScreen()),
-                  _buildIconButton(context, 'assets/images/offer.jpg', 'Offers', OffersScreen()),
-                  _buildIconButton(context, 'assets/images/contact.jpg', 'Contact Us', ContactScreen()),
+                  _buildGridButton(context, 'assets/images/event.jpg', 'Event', EventScreen()),
+                  _buildGridButton(context, 'assets/images/map.jpg', 'Map', MapScreen()),
+                  _buildGridButton(context, 'assets/images/qr.jpg', 'QR', QRScreen()),
+                  _buildGridButton(context, 'assets/images/tour.jpg', 'Virtual Tour', TourScreen()),
+                  _buildGridButton(context, 'assets/images/offer.jpg', 'Offers', OffersScreen()),
+                  _buildGridButton(context, 'assets/images/contact.jpg', 'Contact Us', ContactScreen()),
                 ],
               ),
             ),
-          ],
-        ),
+            ],
+          ),
+          ),
+          );
+        },
       ),
     );
   }
 
-  /// Helper method to create stylized button widgets with image and label
-  Widget _buildIconButton(BuildContext context, String imagePath, String label, Widget screen) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => screen),
-        );
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.transparent,
-          borderRadius: BorderRadius.circular(15),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey,
-              blurRadius: 8,
-              spreadRadius: 2,
-              offset: const Offset(3, 3),
+  // Helper method to create consistent grid buttons
+  Widget _buildGridButton(BuildContext context, String imagePath, String label, Widget screen) {
+    return Card(
+      elevation: 4, // Shadow depth
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(12),
+        onTap: () {
+
+          // Navigate to the corresponding screen when tapped
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => screen),
+          );
+        },
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // Top image part of the button
+            ClipRRect(
+              borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(12)),
+              child: Image.asset(
+                imagePath,
+                width: double.infinity,
+                height: 70,
+                fit: BoxFit.cover,
+              ),
+            ),
+            // Bottom label part of the button
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 8,
+                horizontal: 4,
+              ),
+              child: Text(
+                label,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                ),
+                maxLines: 2, // Ensure text doesn't overflow
+              ),
             ),
           ],
-        ),
-        padding: const EdgeInsets.all(3),
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(12),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey,
-                blurRadius: 1,
-                spreadRadius: 0.5,
-                offset: const Offset(-2, -2),
-              ),
-              BoxShadow(
-                color: Colors.grey,
-                blurRadius: 1,
-                spreadRadius: 0.5,
-                offset: const Offset(2, 2),
-              ),
-            ],
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // Image inside button
-              ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Image.asset(
-                  imagePath,
-                  width: 140,
-                  height: 79,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              const SizedBox(height: 5),
-              Text(
-                label,
-                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-              ),
-            ],
-          ),
         ),
       ),
     );
   }
 }
 
-/// Displays a list of open day events with option to mark as favorite.
+// Events screen showing schedule of open day events
 class EventScreen extends StatefulWidget {
   @override
   _EventScreenState createState() => _EventScreenState();
 }
 
 class _EventScreenState extends State<EventScreen> {
-  // Event list with favorite flag
+  // List of events with title, time and favorite status
   final List<Map<String, dynamic>> events = [
     {'title': 'Welcome & Registration', 'time': '8:30 AM - 9:00 AM', 'isFavorite': false},
     {'title': 'Keynote Speech by University President', 'time': '9:00 AM - 9:30 AM', 'isFavorite': false},
@@ -154,7 +157,7 @@ class _EventScreenState extends State<EventScreen> {
     {'title': 'Clubs & Societies Fair', 'time': '3:00 PM - 4:00 PM', 'isFavorite': false},
   ];
 
-  /// Toggle favorite status for an event
+  // Toggle favorite status for an event
   void _toggleFavorite(int index) {
     setState(() {
       events[index]['isFavorite'] = !events[index]['isFavorite'];
@@ -166,28 +169,44 @@ class _EventScreenState extends State<EventScreen> {
     return NewCustomScaffold(
       body: Stack(
         children: [
-          // Decorative top and bottom wave images
+          // Background images
           Align(
             alignment: Alignment.topCenter,
-            child: Image.asset('assets/images/top1.png', width: double.infinity, fit: BoxFit.cover),
+            child: Image.asset(
+              'assets/images/top1.png',
+              width: double.infinity,
+              fit: BoxFit.cover,
+            ),
           ),
           Align(
             alignment: Alignment.bottomCenter,
-            child: Image.asset('assets/images/bottom.png', width: double.infinity, fit: BoxFit.cover),
+            child: Image.asset(
+              'assets/images/bottom.png',
+              width: double.infinity,
+              fit: BoxFit.cover,
+            ),
           ),
-
-          // Main event list content
+          // Main content
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 32,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // Screen title
                 const Center(
-                  child: Text("Open Day Events", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+                  child: Text(
+                    "Open Day Events",
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
                 const SizedBox(height: 20),
-
-                // Scrollable list of events
+                // List of events
                 Expanded(
                   child: ListView.builder(
                     itemCount: events.length,
@@ -195,18 +214,27 @@ class _EventScreenState extends State<EventScreen> {
                       final event = events[index];
                       return Card(
                         elevation: 4,
-                        color: Colors.indigo[100],
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                        color: Colors.indigo[100], // Light indigo background
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                         margin: const EdgeInsets.symmetric(vertical: 6),
                         child: ListTile(
                           title: Text(
                             event['title']!,
-                            style: const TextStyle(color: Colors.indigo, fontWeight: FontWeight.bold),
+                            style: const TextStyle(
+                              color: Colors.indigo,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                           subtitle: Padding(
                             padding: const EdgeInsets.only(top: 4),
-                            child: Text(event['time']!, style: const TextStyle(color: Colors.indigo)),
+                            child: Text(
+                              event['time']!,
+                              style: const TextStyle(color: Colors.indigo),
+                            ),
                           ),
+                          // Favorite star icon
                           trailing: GestureDetector(
                             onTap: () => _toggleFavorite(index),
                             child: Icon(
@@ -228,13 +256,15 @@ class _EventScreenState extends State<EventScreen> {
   }
 }
 
-/// Displays a basic map screen (placeholder)
+// Placeholder map screen
 class MapScreen extends StatelessWidget {
   @override
-  Widget build(BuildContext context) => Scaffold(appBar: AppBar(title: const Text("Map Screen")));
+  Widget build(BuildContext context) => Scaffold(
+    appBar: AppBar(title: const Text("Map Screen")),
+  );
 }
 
-/// QRScreen with instructions, QR code image, and scan button
+// QR code scanning screen
 class QRScreen extends StatelessWidget {
   const QRScreen({super.key});
 
@@ -242,17 +272,24 @@ class QRScreen extends StatelessWidget {
   Widget build(BuildContext context) => NewCustomScaffold(
     body: Stack(
       children: [
-        // Decorative wave images
+        // Background images
         Align(
           alignment: Alignment.topCenter,
-          child: Image.asset('assets/images/top1.png', width: double.infinity, fit: BoxFit.cover),
+          child: Image.asset(
+            'assets/images/top1.png',
+            width: double.infinity,
+            fit: BoxFit.cover,
+          ),
         ),
         Align(
           alignment: Alignment.bottomCenter,
-          child: Image.asset('assets/images/bottom.png', width: double.infinity, fit: BoxFit.cover),
+          child: Image.asset(
+            'assets/images/bottom.png',
+            width: double.infinity,
+            fit: BoxFit.cover,
+          ),
         ),
-
-        // Main QR scan UI
+        // Main content
         Center(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -260,13 +297,13 @@ class QRScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                // Instructions text
                 const Text(
                   "Click the button and scan the QR code to unlock exclusive content such as videos, documents, and speaker biographies",
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 16, color: Colors.black),
                 ),
                 const SizedBox(height: 20),
-
                 // QR code display
                 ClipOval(
                   child: Container(
@@ -283,15 +320,16 @@ class QRScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 30),
-
-                // Button to navigate to scanner
+                // Scan button
                 ElevatedButton(
                   onPressed: () async {
+                    // Launch QR scanner and get result
                     final scannedResult = await Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => const QRScannerScreen()),
                     );
                     if (scannedResult != null) {
+                      // Show scanned result
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text("Scanned: $scannedResult")),
                       );
@@ -299,10 +337,18 @@ class QRScreen extends StatelessWidget {
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue,
-                    padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 32,
+                      vertical: 12,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
                   ),
-                  child: const Text("Scan Me", style: TextStyle(fontSize: 18, color: Colors.white)),
+                  child: const Text(
+                    "Scan Me",
+                    style: TextStyle(fontSize: 18, color: Colors.white),
+                  ),
                 ),
               ],
             ),
@@ -313,8 +359,10 @@ class QRScreen extends StatelessWidget {
   );
 }
 
-/// Placeholder screen for Offers
+// Placeholder offers screen
 class OffersScreen extends StatelessWidget {
   @override
-  Widget build(BuildContext context) => Scaffold(appBar: AppBar(title: const Text("Offers Screen")));
+  Widget build(BuildContext context) => Scaffold(
+    appBar: AppBar(title: const Text("Offers Screen")),
+  );
 }
