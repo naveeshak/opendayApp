@@ -37,6 +37,8 @@ dependencies:
   cupertino_icons: ^1.0.8
   icons_plus: ^5.0.0
   mobile_scanner: ^7.0.0
+  http: ^0.13.6
+
 
 dev_dependencies:
   flutter_test:

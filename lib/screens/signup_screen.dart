@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:openday/widget/custom_scaffold.dart'; // Custom scaffold layout for consistent UI
 import 'home_screen.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 // SignupScreen is a stateful widget for user registration
 class SignupScreen extends StatefulWidget {
@@ -30,22 +32,40 @@ class _SignupScreenState extends State<SignupScreen> {
     super.dispose();
   }
 
-  // Function to handle signup logic
-  void _signup() {
+  void _signup() async {
     if (_formKey.currentState!.validate()) {
-
-      // Show success message
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Signup successful!')),
+      final url = Uri.parse('https://e21a-212-104-231-94.ngrok-free.app');
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'username': _usernameController.text,
+          'email': _emailController.text,
+          'password': _passwordController.text,
+          'confirmPassword': _confirmPasswordController.text,
+        }),
       );
 
-      // Navigate to HomeScreen and remove the signup screen from the stack
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const HomeScreen()),
-      );
+      final data = jsonDecode(response.body);
+
+      if (response.statusCode == 200) {
+        // Show success message and navigate
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(data['message'] ?? 'Signup successful!')),
+        );
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const HomeScreen()),
+        );
+      } else {
+        // Show error message from backend
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(data['message'] ?? 'Signup failed')),
+        );
+      }
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
