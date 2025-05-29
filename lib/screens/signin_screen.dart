@@ -3,6 +3,10 @@ import 'package:openday/widget/custom_scaffold.dart';
 import 'forget_password.dart';
 import 'signup_screen.dart';
 import 'home_screen.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 // Sign-in screen for user authentication
 class SigninScreen extends StatefulWidget {
@@ -28,13 +32,47 @@ class _SigninScreenState extends State<SigninScreen> {
   }
 
   // Handle sign-in process
-  void _signin() {
+  void _signin() async {
     if (_formKey.currentState!.validate()) {
-      // Navigate to home screen if validation passes
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const HomeScreen()),
-      );
+      final username = _usernameController.text.trim();
+      final password = _passwordController.text;
+
+      final url = Uri.parse('https://19bd-61-245-169-200.ngrok-free.app/signin');
+
+      try {
+        final response = await http.post(
+          url,
+          headers: {'Content-Type': 'application/json'},
+          body: jsonEncode({
+            'username': username,
+            'password': password,
+          }),
+        );
+
+        final responseData = jsonDecode(response.body);
+
+        if (response.statusCode == 200) {
+          // Save username locally
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.setString('username', username);
+
+          // Navigate to HomeScreen
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const HomeScreen()),
+          );
+        } else {
+          // Show error from backend
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(responseData['message'] ?? 'Signin failed')),
+          );
+        }
+      } catch (e) {
+        // Handle network error
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Could not connect to server')),
+        );
+      }
     }
   }
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../screens/home_screen.dart';
 import '../screens/contact_screen.dart';
 import 'package:openday/screens/tour_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // A reusable scaffold widget with a custom AppBar and a bottom menu
 class NewCustomScaffold extends StatelessWidget {
@@ -34,6 +35,9 @@ class NewCustomScaffold extends StatelessWidget {
               _buildMenuItem(context, Icons.local_offer_outlined, 'Special Offers', OffersScreen()),
               _buildMenuItem(context, Icons.help_outline, 'Contact Us', ContactScreen()),
               _buildMenuItem(context, Icons.video_camera_back_outlined, 'Virtual Tour', TourScreen()),
+
+              const Divider(height: 16, thickness: 1),
+              _buildLogoutItem(context),
 
               const SizedBox(height: 20),
             ],
@@ -69,6 +73,38 @@ class NewCustomScaffold extends StatelessWidget {
             context,
             MaterialPageRoute(builder: (context) => screen), // Navigate to the selected screen
           );
+        },
+      ),
+    );
+  }
+
+  Widget _buildLogoutItem(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      decoration: BoxDecoration(
+        color: Colors.grey[50],
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: ListTile(
+        leading: const Icon(Icons.logout, color: Colors.red),
+        title: const Text(
+          'Logout',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+            color: Colors.red,
+          ),
+        ),
+        trailing: const Icon(Icons.chevron_right, color: Colors.grey),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+        minLeadingWidth: 24,
+        onTap: () async {
+          Navigator.pop(context); // Close bottom sheet
+
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.clear();
+
+          Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
         },
       ),
     );
