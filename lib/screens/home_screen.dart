@@ -11,10 +11,12 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return NewCustomScaffold(
-      body: Stack(
-        children: [
-          // Top decorative image
-          Align(
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return Stack(
+            children: [
+            // Top decorative image
+            Align(
             alignment: Alignment.topCenter,
             child: Image.asset(
               'assets/images/top1.png',
@@ -31,78 +33,76 @@ class HomeScreen extends StatelessWidget {
               fit: BoxFit.cover,
             ),
           ),
-          LayoutBuilder(
-            builder: (context, constraints) {
-              return SingleChildScrollView(
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(
-                    minHeight: constraints.maxHeight, // Ensure minimum height fills screen
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const SizedBox(height: 20), // Top spacing
+          SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: constraints.maxHeight, // Ensure minimum height fills screen
+              ),
+              child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                  const SizedBox(height: 20), // Top spacing
 
-                      // Banner image with shadow effect
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.3),
-                                blurRadius: 10,
-                                spreadRadius: 2,
-                                offset: const Offset(0, 5),
-                              ),
-                            ],
-                          ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(20),
-                            child: Image.asset(
-                              'assets/images/banner.jpeg',
-                              width: double.infinity,
-                              height: 300,
-                              fit: BoxFit.cover,
+                    // Banner image with shadow effect
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.3),
+                              blurRadius: 10,
+                              spreadRadius: 2,
+                              offset: const Offset(0, 5),
                             ),
-                          ),
-                        ),
-                      ),
-
-                      const SizedBox(height: 25), // Spacing between banner and grid
-
-                      // Grid of options (3 columns)
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          left: 20,
-                          right: 20,
-                          bottom: 20,
-                        ),
-                        child: GridView.count(
-                          crossAxisCount: 3, // 3 items per row
-                          shrinkWrap: true, // Take only needed space
-                          physics: const NeverScrollableScrollPhysics(), // Disable scrolling
-                          crossAxisSpacing: 12, // Horizontal spacing between items
-                          mainAxisSpacing: 12, // Vertical spacing between items
-                          childAspectRatio: 0.85, // Width to height ratio
-                          children: [
-                            _buildGridButton(context, 'assets/images/event.jpg', 'Event', EventScreen()),
-                            _buildGridButton(context, 'assets/images/map.jpg', 'Map', MapScreen()),
-                            _buildGridButton(context, 'assets/images/qr.jpg', 'QR', QRScreen()),
-                            _buildGridButton(context, 'assets/images/tour.jpg', 'Virtual Tour', TourScreen()),
-                            _buildGridButton(context, 'assets/images/offer.jpg', 'Offers', OffersScreen()),
-                            _buildGridButton(context, 'assets/images/contact.jpg', 'Contact Us', ContactScreen()),
                           ],
                         ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: Image.asset(
+                            'assets/images/banner.jpeg',
+                            width: double.infinity,
+                            height: 300,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                       ),
-                    ],
-                  ),
-                ),
-              );
-            },
+                    ),
+
+            const SizedBox(height: 25), // Spacing between banner and grid
+
+                    // Grid of options (3 columns)
+            Padding(
+              padding: const EdgeInsets.only(
+                left: 20,
+                right: 20,
+                bottom: 20,
+              ),
+              child: GridView.count(
+                crossAxisCount: 3, // 3 items per row
+                shrinkWrap: true, // Take only needed space
+                physics: const NeverScrollableScrollPhysics(), // Disable scrolling
+                crossAxisSpacing: 12, // Horizontal spacing between items
+                mainAxisSpacing: 12, // Vertical spacing between items
+                childAspectRatio: 0.85, // Width to height ratio
+                children: [
+                  _buildGridButton(context, 'assets/images/event.jpg', 'Event', EventScreen()),
+                  _buildGridButton(context, 'assets/images/map.jpg', 'Map', MapScreen()),
+                  _buildGridButton(context, 'assets/images/qr.jpg', 'QR', QRScreen()),
+                  _buildGridButton(context, 'assets/images/tour.jpg', 'Virtual Tour', TourScreen()),
+                  _buildGridButton(context, 'assets/images/offer.jpg', 'Offers', OffersScreen()),
+                  _buildGridButton(context, 'assets/images/contact.jpg', 'Contact Us', ContactScreen()),
+                ],
+              ),
+            ),
+            ],
+            ),
+            ),
           ),
-        ],
+          ],
+          );
+        },
       ),
     );
   }
