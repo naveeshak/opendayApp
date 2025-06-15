@@ -6,7 +6,7 @@ class MapScreen extends StatelessWidget {
   const MapScreen({super.key});
 
   // Campus Map URL
-  final String CampusMapUrl = 'https://goo.gl/maps/vLtE41RByQtVtyuC8'; // Replace with your real map link
+  final String CampusMapUrl = 'https://www.google.com/maps/d/viewer?mid=1rzZybqbU6EKHx9eXlvCEG4vSJk2Ac8I&ll=6.915259086288546%2C79.96070804053609&z=18';
 
   @override
   Widget build(BuildContext context) {

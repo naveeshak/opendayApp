@@ -34,7 +34,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
   void _signup() async {
     if (_formKey.currentState!.validate()) {
-      final url = Uri.parse('https://b62c-212-104-231-9.ngrok-free.app/signup');
+      final url = Uri.parse('https://064b-212-104-231-9.ngrok-free.app/signup');
       final response = await http.post(
         url,
         headers: {'Content-Type': 'application/json'},
