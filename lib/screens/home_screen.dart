@@ -3,6 +3,7 @@ import '../widget/newcustom_scaffold.dart';
 import 'qr_scanner_screen.dart';
 import 'package:openday/screens/contact_screen.dart';
 import 'package:openday/screens/tour_screen.dart';
+import 'package:openday/screens/map_screen.dart';
 
 // Main home screen that displays a banner and grid of options
 class HomeScreen extends StatelessWidget {
@@ -278,13 +279,6 @@ class _EventScreenState extends State<EventScreen> {
   }
 }
 
-// Placeholder map screen
-class MapScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(title: const Text("Map Screen")),
-  );
-}
 
 // QR code scanning screen
 class QRScreen extends StatelessWidget {
