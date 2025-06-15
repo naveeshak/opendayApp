@@ -75,8 +75,11 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
           TextButton(
             onPressed: () async {
               Navigator.pop(context);
-              if (await canLaunchUrl(Uri.parse(url))) {
-                await launchUrl(Uri.parse(url));
+              final uri = Uri.parse(url);
+              if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Could not launch $url')),
+                );
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text('Could not launch $url')),
