@@ -5,6 +5,7 @@ import 'package:openday/screens/tour_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:openday/screens/map_screen.dart';
 import 'package:openday/screens/offers_screen.dart';
+import '../widget/search_delegate.dart';
 
 // A reusable scaffold widget with a custom AppBar and a bottom menu
 class NewCustomScaffold extends StatelessWidget {
@@ -138,8 +139,27 @@ class NewCustomScaffold extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.search, color: Colors.black, size: 26),
             onPressed: () {
-              // Search functionality (not implemented yet)
+              showSearch(
+                context: context,
+                delegate: SimpleSearchDelegate([
+                  'QR',
+                  'Campus Map',
+                  'Special Offers',
+                  'Virtual Tour',
+                  'Contact Us',
+                  'QR Scanner',
+                  'Home',
+                  'Offers',
+                  'Event',
+                  'Email',
+                  'Phone',
+                  'Fax',
+                  '360',
+                  'Virtual',
+                ]),
+              );
             },
+
           ),
           IconButton(
             icon: const Icon(Icons.notifications_outlined, color: Colors.black, size: 26),
