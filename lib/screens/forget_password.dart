@@ -1,5 +1,7 @@
 import 'package:openday/widget/custom_scaffold.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 // Screen for handling password reset requests
 class forgotPasswordScreen extends StatefulWidget {
@@ -24,13 +26,33 @@ class _ForgotPasswordScreenState extends State<forgotPasswordScreen> {
   }
 
   // Function to handle password reset link sending
-  void _sendResetLink() {
-    // Validate the form before proceeding
+  void _sendResetLink() async {
     if (_formKey.currentState!.validate()) {
-      // Show confirmation message
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Reset link sent to email.')),
-      );
+      final email = _emailController.text.trim();
+
+      try {
+        final response = await http.post(
+          Uri.parse('https://b992-212-104-231-9.ngrok-free.app/reset-password'), // Replace with LAN IP of backend
+          headers: {'Content-Type': 'application/json'},
+          body: jsonEncode({'email': email}),
+        );
+
+        final data = jsonDecode(response.body);
+
+        if (response.statusCode == 200) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Reset link sent to $email')),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(data['message'] ?? 'Failed to send reset link')),
+          );
+        }
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('An error occurred')),
+        );
+      }
     }
   }
 
