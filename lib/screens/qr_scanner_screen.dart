@@ -28,6 +28,7 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
 
 
   Future<void> _handleScannedData(String data) async {
+    // Update UI with scanned data and pause scanning temporarily
     setState(() {
       scannedData = data;
       _isScanning = false;
@@ -35,15 +36,15 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
 
     // Check if it's a URL
     if (_isValidUrl(data)) {
-      await _showUrlDialog(data);
+      await _showUrlDialog(data); // Handle web URLs
     }
     // Check if it's a file path (simple check)
     else if (_looksLikeFilePath(data)) {
-      await _showFileContentDialog(data);
+      await _showFileContentDialog(data); // Handle file references
     }
     // Treat as plain text
     else {
-      await _showTextDialog(data);
+      await _showTextDialog(data); // Handle plain text
     }
 
     // Resume scanning after handling
@@ -52,15 +53,18 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
     }
   }
 
+  /// Checks if the scanned data is a valid web URL
   bool _isValidUrl(String data) {
     final uri = Uri.tryParse(data);
     return uri != null && (uri.scheme == 'http' || uri.scheme == 'https');
   }
 
+  /// Simple heuristic to detect potential file paths
   bool _looksLikeFilePath(String data) {
     return data.contains('/') || data.contains('\\') || data.contains('.');
   }
 
+  /// Shows dialog for URL content with option to open in browser
   Future<void> _showUrlDialog(String url) async {
     return showDialog(
       context: context,
@@ -93,6 +97,7 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
     );
   }
 
+  /// Shows dialog for file path content (read-only)
   Future<void> _showFileContentDialog(String filePath) async {
     return showDialog(
       context: context,
@@ -122,17 +127,19 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
     );
   }
 
+  /// Shows dialog for plain text content with copy option
   Future<void> _showTextDialog(String text) async {
     return showDialog(
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Scanned Text'),
         content: SingleChildScrollView(
-          child: Text(text),
+          child: Text(text), // Scrollable for long text
         ),
         actions: [
           TextButton(
             onPressed: () {
+              // Copy text to clipboard
               Clipboard.setData(ClipboardData(text: text));
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(content: Text('Copied to clipboard')),

@@ -7,6 +7,7 @@ import 'package:openday/screens/map_screen.dart';
 import 'package:openday/screens/offers_screen.dart';
 
 // Main home screen that displays a banner and grid of options
+// Displays a banner and a grid of navigation options
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
@@ -23,7 +24,7 @@ class HomeScreen extends StatelessWidget {
             child: Image.asset(
               'assets/images/top1.png',
               width: double.infinity,
-              fit: BoxFit.cover,
+              fit: BoxFit.cover, // Cover the available space
             ),
           ),
           // Bottom decorative image
@@ -32,16 +33,17 @@ class HomeScreen extends StatelessWidget {
             child: Image.asset(
               'assets/images/bottom.png',
               width: double.infinity,
-              fit: BoxFit.cover,
+              fit: BoxFit.cover, // Cover the available space
             ),
           ),
+          // Main scrollable content
           SingleChildScrollView(
             child: ConstrainedBox(
               constraints: BoxConstraints(
                 minHeight: constraints.maxHeight, // Ensure minimum height fills screen
               ),
               child: Column(
-                  mainAxisSize: MainAxisSize.min,
+                  mainAxisSize: MainAxisSize.min, // Take minimum vertical space
                   children: [
                   const SizedBox(height: 20), // Top spacing
 
@@ -56,7 +58,7 @@ class HomeScreen extends StatelessWidget {
                               color: Colors.black.withOpacity(0.3),
                               blurRadius: 10,
                               spreadRadius: 2,
-                              offset: const Offset(0, 5),
+                              offset: const Offset(0, 5), // Shadow position
                             ),
                           ],
                         ),
@@ -66,7 +68,7 @@ class HomeScreen extends StatelessWidget {
                             'assets/images/banner.jpeg',
                             width: double.infinity,
                             height: 300,
-                            fit: BoxFit.cover,
+                            fit: BoxFit.cover, // Cover the container
                           ),
                         ),
                       ),
@@ -74,7 +76,7 @@ class HomeScreen extends StatelessWidget {
 
             const SizedBox(height: 25), // Spacing between banner and grid
 
-                    // Grid of options (3 columns)
+            // Grid of options (3 columns)
             Padding(
               padding: const EdgeInsets.only(
                 left: 20,
@@ -117,7 +119,7 @@ class HomeScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
       ),
       child: InkWell(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(12), // Match card's rounded corners
         onTap: () {
 
           // Navigate to the corresponding screen when tapped
@@ -137,7 +139,7 @@ class HomeScreen extends StatelessWidget {
                 imagePath,
                 width: double.infinity,
                 height: 70,
-                fit: BoxFit.cover,
+                fit: BoxFit.cover, // Cover the container
               ),
             ),
             // Bottom label part of the button

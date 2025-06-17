@@ -7,24 +7,32 @@ class ContactScreen extends StatelessWidget {
   const ContactScreen({super.key});
 
   // Function to launch a URL in an external application
+  // Takes a URL string as input and attempts to open it in an external browser/app
   void _launchURL(String url) async {
+    // Parse the string URL into a Uri object
     final uri = Uri.parse(url);
+    // Try to launch the URL using the url_launcher package
+    // LaunchMode.externalApplication ensures it opens in an external app/browser
     if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+      // Throw an exception if the URL couldn't be launched
       throw 'Could not launch $url';
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    // Using NewCustomScaffold as the base widget for consistent app styling
     return NewCustomScaffold(
       body: Stack(
         children: [
-          // Background image at the top
+          // Background image at the top of the screen
+          // Align widget positions the image at the top center
           Align(
             alignment: Alignment.topCenter,
             child: Image.asset('assets/images/top1.png', width: double.infinity, fit: BoxFit.cover),
           ),
-          // Background image at the bottom
+          // Background image at the bottom of the screen
+          // Align widget positions the image at the bottom center
           Align(
             alignment: Alignment.bottomCenter,
             child: Image.asset('assets/images/bottom.png', width: double.infinity, fit: BoxFit.cover),
@@ -33,41 +41,43 @@ class ContactScreen extends StatelessWidget {
           // Main content centered on the screen
           Center(
             child: Padding(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(20), // Padding around all content
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center, // Centers content vertically
                 children: [
-                  // Title text
+                  // Title text widget
                   const Text(
                     "Contact Us",
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.indigo),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 20), // Spacer between title and card
 
-                  // Contact information card
+                  // Card widget for contact information
                   Card(
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                    elevation: 5,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)), // Rounded corners
+                    elevation: 5, // Shadow depth
                     child: Padding(
-                      padding: const EdgeInsets.all(20),
+                      padding: const EdgeInsets.all(20), // Inner padding
                       child: Column(
                         children: const [
+                          // Company name
                           Text("CINEC Campus (Pvt) Ltd.", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                          SizedBox(height: 10),
+                          SizedBox(height: 10), // Spacer
+                          // Company address and contact details
                           Text(
                             "Millennium Drive,\nIT Park,\nMalabe,\nSri Lanka\n\nPhone: +94 11 2 413 500\nFax: +94 11 2 413 505\nEmail: info@cinec.edu",
-                            textAlign: TextAlign.center,
+                            textAlign: TextAlign.center, // Center-aligned text
                           ),
                         ],
                       ),
                     ),
                   ),
 
-                  const SizedBox(height: 30),
+                  const SizedBox(height: 30), // Spacer between card and social icons
 
-                  // Social media icons row
+                  // Row of social media icon buttons
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center, // Centers icons horizontally
                     children: [
                       // Facebook icon button
                       IconButton(
@@ -77,7 +87,8 @@ class ContactScreen extends StatelessWidget {
                           height: 50,
                           child: Image.asset(
                             'assets/icons/facebook.png',
-                            fit: BoxFit.contain,
+                            fit: BoxFit.contain, // Fits image within container
+                            // Error builder shows an error icon if image fails to load
                             errorBuilder: (context, error, stackTrace) => Icon(Icons.error),
                           ),
                         ),

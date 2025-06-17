@@ -33,8 +33,10 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   void _signup() async {
+    // Validate all form fields before proceeding
     if (_formKey.currentState!.validate()) {
-      final url = Uri.parse('https://b992-212-104-231-9.ngrok-free.app/signup');
+      // API endpoint for user registration
+      final url = Uri.parse('https://d645-212-104-231-219.ngrok-free.app/signup');
       final response = await http.post(
         url,
         headers: {'Content-Type': 'application/json'},
@@ -46,6 +48,7 @@ class _SignupScreenState extends State<SignupScreen> {
         }),
       );
 
+      // Parse server response
       final data = jsonDecode(response.body);
 
       if (response.statusCode == 200) {
@@ -83,7 +86,7 @@ class _SignupScreenState extends State<SignupScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 40),
+                  const SizedBox(height: 40), // Top spacing
 
                   // Title
                   const Text(
@@ -106,13 +109,13 @@ class _SignupScreenState extends State<SignupScreen> {
                   TextFormField(
                     controller: _usernameController,
                     decoration: InputDecoration(
-                      prefixIcon: const Icon(Icons.person),
+                      prefixIcon: const Icon(Icons.person), // Leading icon
                       hintText: "Username",
                       filled: true,
-                      fillColor: Colors.blue[100],
+                      fillColor: Colors.blue[100], // Light blue background
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide.none,
+                        borderSide: BorderSide.none, // No border
                       ),
                     ),
                     validator: (value) {
@@ -168,6 +171,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       if (value == null || value.isEmpty) {
                         return 'Please enter password';
                       }
+                      // Minimum password length requirement
                       if (value.length < 6) {
                         return 'Password must be at least 6 characters';
                       }
@@ -194,6 +198,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       if (value == null || value.isEmpty) {
                         return 'Please confirm password';
                       }
+                      // Check if passwords match
                       if (value != _passwordController.text) {
                         return 'Passwords do not match';
                       }
@@ -204,12 +209,12 @@ class _SignupScreenState extends State<SignupScreen> {
 
                   // Signup button
                   SizedBox(
-                    width: double.infinity,
+                    width: double.infinity, // Full width button
                     height: 50,
                     child: ElevatedButton(
                       onPressed: _signup, // Call signup function
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blue,
+                        backgroundColor: Colors.blue, // Primary color
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -238,7 +243,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 20), // Bottom spacing
                 ],
               ),
             ),

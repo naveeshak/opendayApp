@@ -33,13 +33,16 @@ class _SigninScreenState extends State<SigninScreen> {
 
   // Handle sign-in process
   void _signin() async {
+    // Validate form inputs before proceeding
     if (_formKey.currentState!.validate()) {
       final username = _usernameController.text.trim();
       final password = _passwordController.text;
 
-      final url = Uri.parse('https://b992-212-104-231-9.ngrok-free.app/signin');
+      // API endpoint for authentication
+      final url = Uri.parse('https://d645-212-104-231-219.ngrok-free.app/signin');
 
       try {
+        // Make POST request to authentication endpoint
         final response = await http.post(
           url,
           headers: {'Content-Type': 'application/json'},
@@ -49,6 +52,7 @@ class _SigninScreenState extends State<SigninScreen> {
           }),
         );
 
+        // Parse JSON response
         final responseData = jsonDecode(response.body);
 
         if (response.statusCode == 200) {
@@ -110,7 +114,7 @@ class _SigninScreenState extends State<SigninScreen> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 30),
+                    const SizedBox(height: 30), // Spacer
 
                     // Form section
                     Form(
@@ -122,13 +126,13 @@ class _SigninScreenState extends State<SigninScreen> {
                           TextFormField(
                             controller: _usernameController,
                             decoration: InputDecoration(
-                              prefixIcon: const Icon(Icons.person),
+                              prefixIcon: const Icon(Icons.person), // Leading icon
                               hintText: "User Name",
                               filled: true,
                               fillColor: Colors.blue[100], // Light blue background
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide.none,
+                                borderSide: BorderSide.none, // No border
                               ),
                             ),
                             validator: (value) {
@@ -138,7 +142,7 @@ class _SigninScreenState extends State<SigninScreen> {
                               return null;
                             },
                           ),
-                          const SizedBox(height: 20),
+                          const SizedBox(height: 20), // Spacer
 
                           // Password input field
                           TextFormField(
